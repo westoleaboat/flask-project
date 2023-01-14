@@ -95,3 +95,5 @@ docker run -p 5000:5000 my-flask-site
 2. Generate a migration with the flask db migrate command.
 3. Review the generated migration script and correct it if it has any inaccuracies.
 4. Apply the changes to the database with the flask db upgrade command.
+
+## How to set email to your console in Flask project
