@@ -17,6 +17,7 @@ email-validator = "*"
 flask-jwt-extended = "*"
 bleach = "*"
 markdown = "*"
+flask-pagedown = "*"
 
 [dev-packages]
 

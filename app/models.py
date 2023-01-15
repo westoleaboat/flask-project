@@ -50,25 +50,25 @@ class Role(db.Model):
             if role is None:
                 role = Role(name=r)
             role.reset_permissions()
-            for perm in roles[r]:
-                role.add_permission(perm)
+            for permission in roles[r]:
+                role.add_permission(permission)
             role.default = (role.name == default_role)
             db.session.add(role)
         db.session.commit()
 
-    def add_permission(self, perm):
-        if not self.has_permission(perm):
-            self.permissions += perm
+    def add_permission(self, permission):
+        if not self.has_permission(permission):
+            self.permissions += permission
 
-    def remove_permission(self, perm):
-        if self.has_permission(perm):
-            self.permissions -= perm
+    def remove_permission(self, permission):
+        if self.has_permission(permission):
+            self.permissions -= permission
 
     def reset_permissions(self):
         self.permissions = 0
 
-    def has_permission(self, perm):
-        return self.permissions & perm == perm
+    def has_permission(self, permission):
+        return self.permissions & permission == permission
 
     def __repr__(self):
         return '<Role %r>' % self.name
@@ -137,6 +137,33 @@ class User(UserMixin, db.Model):
             self.avatar_hash = self.gravatar_hash()
         self.follow(self)
 
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def generate_confirmation_token(self, expiration=3600):
+        
+        payload = {'confirm': self.id, 'exp': datetime.now(timezone.utc) + timedelta(seconds=expiration)}
+        return jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm="HS256")
+
+
+    def confirm(self, token, leeway=10):
+        try:
+            data = jwt.decode(token, current_app.config['SECRET_KEY'], leeway=leeway, algorithms=["HS256"])
+        except:
+            return False
+        if data.get('confirm') != self.id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        return True
 
 
     def gravatar_hash(self):
@@ -172,34 +199,7 @@ class User(UserMixin, db.Model):
             follower_id=user.id).first() is not None
 
 
-    @property
-    def password(self):
-        raise AttributeError('password is not a readable attribute')
-
-    @password.setter
-    def password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def verify_password(self, password):
-        return check_password_hash(self.password_hash, password)
-
-    def generate_confirmation_token(self, expiration=3600):
-        
-        payload = {'confirm': self.id, 'exp': datetime.now(timezone.utc) + timedelta(seconds=expiration)}
-        return jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm="HS256")
-
     
-
-    def confirm(self, token, leeway=10):
-        try:
-            data = jwt.decode(token, current_app.config['SECRET_KEY'], leeway=leeway, algorithms=["HS256"])
-        except:
-            return False
-        if data.get('confirm') != self.id:
-            return False
-        self.confirmed = True
-        db.session.add(self)
-        return True
 
     def generate_email_change_token(self, new_email, expiration=3600):
         payload = {'change_email': self.id, 'new_email': new_email, 'exp': datetime.now(timezone.utc) + timedelta(seconds=expiration)}
@@ -225,8 +225,8 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
-    def can(self, perm):
-        return self.role is not None and self.role.has_permission(perm)
+    def can(self, permission):
+        return self.role is not None and self.role.has_permission(permission)
 
     def is_administrator(self):
         return self.can(Permission.ADMIN)

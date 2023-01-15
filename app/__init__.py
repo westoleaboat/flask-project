@@ -7,12 +7,14 @@ from config import config
 from flask_login import LoginManager
 import os
 from flask_jwt_extended import JWTManager
+from flask_pagedown import PageDown
 
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
 db = SQLAlchemy()
 jwt = JWTManager()
+pagedown = PageDown()
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -28,6 +30,8 @@ def create_app(config_name):
     db.init_app(app)
     login_manager.init_app(app)
     jwt.init_app(app)
+    pagedown.init_app(app)
+
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

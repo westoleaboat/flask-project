@@ -47,3 +47,4 @@ data.db
 .DS_Store
 .env
 .idea
+.flaskenv
