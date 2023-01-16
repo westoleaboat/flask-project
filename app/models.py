@@ -153,6 +153,10 @@ class User(UserMixin, db.Model):
         payload = {'confirm': self.id, 'exp': datetime.now(timezone.utc) + timedelta(seconds=expiration)}
         return jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm="HS256")
 
+    def generate_auth_token(self, expiration=600):
+        payload = {'user_id': self.id, 'exp': datetime.now(timezone.utc) + timedelta(seconds=expiration)}
+        return jwt.encode(payload, current_app.config['SECRET_KEY'], algorithm="HS256")
+
 
     def confirm(self, token, leeway=10):
         try:
@@ -164,6 +168,19 @@ class User(UserMixin, db.Model):
         self.confirmed = True
         db.session.add(self)
         return True
+    
+    def to_json(self):
+        json_user = {
+            'url': url_for('api.get_user', id=self.id),
+            'username': self.username,
+            'member_since': self.member_since,
+            'last_seen': self.last_seen,
+            'posts_url': url_for('api.get_user_posts', id=self.id),
+            'followed_posts_url': url_for('api.get_user_followed_posts',
+            id=self.id),
+            'post_count': self.posts.count()
+        }
+        return json_user
 
 
     def gravatar_hash(self):
@@ -238,6 +255,14 @@ class User(UserMixin, db.Model):
     def ping(self):
         self.last_seen = datetime.utcnow()
         db.session.add(self)
+
+    @staticmethod
+    def verify_auth_token(token, leeway=10):
+        try:
+            data = jwt.decode(token, current_app.config['SECRET_KEY'], leeway=leeway, algorithms=["HS256"])
+        except:
+            return None
+        return User.query.get(data['user_id'])
         
 
     def __repr__(self):
