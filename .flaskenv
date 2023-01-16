@@ -8,6 +8,6 @@ FLASK_DEBUG=True
 # MAIL_USE_TLS = True
 # MAIL_USE_SSL = False
 
-FLASK_CONFIG='production'
+# FLASK_CONFIG='production'
 # FLASKY_ADMIN='bob@bob.com'
 # DATABASE_URL='postgresql://gozhfudg:bvQa0aE2a8Rx0BSKUhejK99JSw4MpylN@babar.db.elephantsql.com/gozhfudg'
