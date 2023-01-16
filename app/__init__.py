@@ -8,6 +8,8 @@ from flask_login import LoginManager
 import os
 from flask_jwt_extended import JWTManager
 from flask_pagedown import PageDown
+from dotenv import load_dotenv
+
 
 bootstrap = Bootstrap()
 mail = Mail()
@@ -19,8 +21,9 @@ pagedown = PageDown()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
-def create_app(config_name):
+def create_app(config_name, db_url=None):
     app = Flask(__name__)
+    load_dotenv()
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
