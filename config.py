@@ -17,7 +17,7 @@ class Config:
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "sqlite:///data.db")
+    # SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", "sqlite:///data.db")
     JWT_SECRET_KEY = 'chacotasprod'
 
     FLASKY_POSTS_PER_PAGE = 5
@@ -28,6 +28,8 @@ class Config:
     @staticmethod
     def init_app(app):
         pass
+
+    
 
 
 class DevelopmentConfig(Config):

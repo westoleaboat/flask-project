@@ -269,7 +269,7 @@ class User(UserMixin, db.Model):
         return '<User %r>' % self.username
 
 class AnonymousUser(AnonymousUserMixin):
-    def can(self, permissions):
+    def can(self, permission):
         return False
 
     def is_administrator(self):
