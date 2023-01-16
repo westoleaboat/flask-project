@@ -216,8 +216,7 @@ def moderate():
         page=page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
         error_out=False)
     comments = pagination.items
-    return render_template('moderate.html', comments=comments,
-                           pagination=pagination, page=page)
+    return render_template('moderate.html', comments=comments, pagination=pagination, page=page)
 
 @main.route('/moderate/enable/<int:id>')
 @login_required
