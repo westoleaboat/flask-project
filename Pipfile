@@ -41,6 +41,7 @@ werkzeug = "==2.2.2"
 wtforms = "==3.0.1"
 flask-httpauth = "*"
 httpie = "*"
+gunicorn = "*"
 
 [dev-packages]
 
