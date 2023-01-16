@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
 
 {% block title %}PSI FLASK{% endblock %}
 
@@ -18,11 +19,10 @@
         <li{% if not show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_all') }}">All</a></li>
         {% if current_user.is_authenticated %}
         <li{% if show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_followed') }}">Followed</a></li>
-        {% endif %}
+        {% endif %} 
     </ul>
     {% include '_posts.html' %}
 </div>
-
 {% if pagination %}
 <div class="pagination">
     {{ macros.pagination_widget(pagination, '.index') }}

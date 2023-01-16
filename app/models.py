@@ -199,6 +199,10 @@ class User(UserMixin, db.Model):
             follower_id=user.id).first() is not None
 
 
+    @property
+    def followed_posts(self):
+        return Post.query.join(Follow, Follow.followed_id == Post.author_id).filter(Follow.follower_id == self.id)
+
     
 
     def generate_email_change_token(self, new_email, expiration=3600):

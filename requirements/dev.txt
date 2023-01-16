@@ -1,0 +1,2 @@
+-r common.txt
+faker==16.4.0
