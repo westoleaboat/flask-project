@@ -1,4 +1,5 @@
 *.py[cod]
+.flaskenv
 
 # C extensions
 *.so
@@ -47,4 +48,3 @@ data.db
 .DS_Store
 .env
 .idea
-.flaskenv
