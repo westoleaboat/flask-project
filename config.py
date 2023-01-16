@@ -1,5 +1,5 @@
 import os
-
+from dotenv import load_dotenv
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -16,6 +16,7 @@ class Config:
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "sqlite:///data.db")
     JWT_SECRET_KEY = 'chacotasprod'
 
     FLASKY_POSTS_PER_PAGE = 5
