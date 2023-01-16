@@ -9,7 +9,7 @@ import os
 from flask_jwt_extended import JWTManager
 from flask_pagedown import PageDown
 from dotenv import load_dotenv
-
+from ..config import ProductionConfig
 
 bootstrap = Bootstrap()
 mail = Mail()
@@ -21,11 +21,11 @@ pagedown = PageDown()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
-def create_app(production, db_url=None):
+def create_app(config_name=ProductionConfig, db_url=None):
     app = Flask(__name__)
     load_dotenv()
-    app.config.from_object(config[production])
-    config[production].init_app(app)
+    app.config.from_object(config[config_name])
+    config[config_name].init_app(app)
 
     bootstrap.init_app(app)
     mail.init_app(app)
