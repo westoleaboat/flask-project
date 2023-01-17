@@ -28,14 +28,14 @@ def test(test_names):
         tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
 
-@app.cli.command()
-def deploy():
-    """Run deployment tasks."""
-    # migrate database to latest revision
-    upgrade()
+# @app.cli.command()
+# def deploy():
+#     """Run deployment tasks."""
+#     # migrate database to latest revision
+#     upgrade()
 
-    # create or update user roles
-    Role.insert_roles()
+# create or update user roles
+Role.insert_roles()
 
-    # ensure all users are following themselves
-    User.add_self_follows()
+# ensure all users are following themselves
+User.add_self_follows()
