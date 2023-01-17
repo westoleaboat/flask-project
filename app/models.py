@@ -70,8 +70,11 @@ class Role(db.Model):
     def has_permission(self, permission):
         return self.permissions & permission == permission
 
+    
+
     def __repr__(self):
         return '<Role %r>' % self.name
+    
 
 class Follow(db.Model):
     __tablename__ = 'follows'

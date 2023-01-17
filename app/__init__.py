@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_mail import Mail, Message
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
-from app.models import Role #, User
+# from app.models import Role #, User
 from config import config
 from flask_login import LoginManager
 import os
@@ -37,7 +37,7 @@ def create_app(config_name='production', db_url=None):
     jwt.init_app(app)
     pagedown.init_app(app)
     # create or update user roles
-    Role.insert_roles()
+    # Role.insert_roles()
 
     # ensure all users are following themselves
     # User.add_self_follows()
