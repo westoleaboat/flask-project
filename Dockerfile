@@ -4,4 +4,4 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 # RUN flask deploy
 COPY . .
-CMD [ "/bin/bash", "docker-entrypoint.sh" ]
+CMD [ "/bin/bash", "flask deploy", "docker-entrypoint.sh" ]
