@@ -37,6 +37,8 @@ def deploy():
 
     # create or update user roles
     Role.insert_roles()
+    print('roles inserted')
 
     # ensure all users are following themselves
     User.add_self_follows()
+    print('addes self_follows')

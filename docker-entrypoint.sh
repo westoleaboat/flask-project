@@ -1,6 +1,6 @@
 #!/bin/sh
 
-flask db upgrade
+flask deploy
 
 # flask deploy
 # flask deploy
