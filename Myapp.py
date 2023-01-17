@@ -34,8 +34,8 @@ def test(test_names):
 #     # migrate database to latest revision
 #     upgrade()
 
-# create or update user roles
-Role.insert_roles()
+# # create or update user roles
+# Role.insert_roles()
 
-# ensure all users are following themselves
-User.add_self_follows()
+# # ensure all users are following themselves
+# User.add_self_follows()
