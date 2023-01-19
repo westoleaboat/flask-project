@@ -100,3 +100,5 @@ docker run -p 5000:5000 my-flask-site
 
 ## gunicorn
 gunicorn Myapp:app
+
+Ahora es como traer usuarios??
